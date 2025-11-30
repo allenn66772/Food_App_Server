@@ -20,7 +20,11 @@ const foodSchema= new mongoose.Schema({
     uploadImages:{
         type:Array,
         required:true
-    }
+    },
+     usermail:{
+        type :String,
+        required:true
+    },
 })
 
 const foods =mongoose.model("foods",foodSchema)

@@ -24,7 +24,7 @@ exports.addfoodController=async(req,res)=>{
             category,
             descryption,
             uploadImages,
-            usermail
+            usermail,
         });
 
         await newFood.save();
@@ -34,5 +34,44 @@ exports.addfoodController=async(req,res)=>{
         res.status(500).json(error)
         console.log(error);
         
+        
+        
     }
 }
+
+//get home books
+exports.getAllFoodController = async (req, res) => {
+  console.log("Inside all food controller");
+  try {
+    const allFoods = await foods.find().sort({ _id: -1 }).limit(4);
+    res.status(200).json(allFoods);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+
+//get food  to user
+// exports.getAllfoodController=async(req,res)=>{
+//     console.log("Inside Get Food Controller");
+//     const searchKey =req.query.search
+//     const  usermail = req.payload
+
+//     const query = {
+//   name: { $regex: searchKey || "", $options: "i" },
+//    usermail: { $ne: usermail }
+//   };
+
+//   try{
+//     const result=await foods.find(query)
+//     res.status(200).json(result)
+   
+    
+    
+
+//   }catch(error){
+//     res.status(500).json(error)
+    
+//   }
+   
+// }
