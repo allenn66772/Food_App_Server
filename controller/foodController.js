@@ -39,11 +39,18 @@ exports.addfoodController=async(req,res)=>{
     }
 }
 
-//get home books
+//get home food
 exports.getAllFoodController = async (req, res) => {
   console.log("Inside all food controller");
+
+  const search = req.query.search || ""; // ← read search keyword
+
   try {
-    const allFoods = await foods.find().sort({ _id: -1 }).limit(4);
+    const allFoods = await foods.find({
+      name: { $regex: search, $options: "i" } // case-insensitive search
+    })
+    .sort({ _id: -1 });
+
     res.status(200).json(allFoods);
   } catch (error) {
     res.status(500).json(error);
@@ -51,27 +58,21 @@ exports.getAllFoodController = async (req, res) => {
 };
 
 
-//get food  to user
-// exports.getAllfoodController=async(req,res)=>{
-//     console.log("Inside Get Food Controller");
-//     const searchKey =req.query.search
-//     const  usermail = req.payload
 
-//     const query = {
-//   name: { $regex: searchKey || "", $options: "i" },
-//    usermail: { $ne: usermail }
-//   };
+// get food  to user
+exports.getHotelFoodController = async (req, res) => {
+  console.log("Inside Get hotel added food controller");
+  const usermail = req.payload;
+  const query = {
+    usermail: { $eq: usermail },
+  };
 
-//   try{
-//     const result=await foods.find(query)
-//     res.status(200).json(result)
-   
+  try {
+    const hotelFoods = await foods.find(query);
+    res.status(200).json(hotelFoods);
+    console.log(hotelFoods);
     
-    
-
-//   }catch(error){
-//     res.status(500).json(error)
-    
-//   }
-   
-// }
+  } catch (error) {
+    console.log(error);
+  }
+};
