@@ -22,6 +22,9 @@ foodAppserver.use(express.json())
 //9. tell the  server to use router
 foodAppserver.use(router)
 
+///
+foodAppserver.use("/imgUploads",express.static("./imgUploads"))
+
 
 //3. create port
  const PORT=3000
